@@ -16,7 +16,8 @@ function createCard(card) {
 //Initialize game, display card on page
 function initGame() {
   const deck = document.querySelector(".deck");
-  const generateCardHTML = cards.map(function(card) {
+  //shuffle cards
+  const generateCardHTML = shuffle(cards).map(function(card) {
     return createCard(card);
   });
   deck.innerHTML = generateCardHTML.join("");

@@ -66,14 +66,16 @@ allCards.forEach(function(card) {
 
         openCards = [];
 
+        //Check if gave over
+
+
         //if the two cards do not match, hide cards
       } else {
         setTimeout(function() {
           currentCard.classList.remove("open", "show");
           previousCard.classList.remove("open", "show");
-
           openCards = [];
-        });
+        }, 500);
       }
     } else {
         card.classList.add("open", "show");

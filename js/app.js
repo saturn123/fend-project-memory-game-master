@@ -8,30 +8,22 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
                   "fa fa-leaf", "fa fa-leaf",
                   "fa fa-bicycle", "fa fa-bicycle"];
 
-//function to create cards
-function createCard(card) {
-  return (`<li class="card"><i class="${card}"></i></li>`);
-}
+document.body.onload = initGame();
 
 //Initialize game, display card on page
 function initGame() {
   const deck = document.querySelector(".deck");
-  //shuffle cards
+  //shuffle deck
   const generateCardHTML = shuffle(cards).map(function(card) {
     return createCard(card);
   });
   deck.innerHTML = generateCardHTML.join("");
 }
 
-initGame();
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+//function to create cards
+function createCard(card) {
+  return (`<li class="card"><i class="${card}"></i></li>`);
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -50,6 +42,7 @@ function shuffle(array) {
 
 const allCards = document.querySelectorAll(".card");
 let openCards = [];
+let matchedCards = [];
 
 //set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
 allCards.forEach(function(card) {
@@ -65,9 +58,11 @@ allCards.forEach(function(card) {
 
       //compare 2 opened cards
       if (currentCard.innerHTML === previousCard.innerHTML) {
+
         // if the two cards match
         currentCard.classList.add("match");
         previousCard.classList.add("match");
+        matchedCards.push(currentCard, previousCard);
 
         openCards = [];
 
@@ -86,6 +81,7 @@ allCards.forEach(function(card) {
       }
   });
 });
+
 
 
 /*

@@ -8,7 +8,21 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
                   "fa fa-leaf", "fa fa-leaf",
                   "fa fa-bicycle", "fa fa-bicycle"];
 
+//function to create cards
+function createCard(card) {
+  return (`<li class="card"><i class="${card}"></i></li>`);
+}
 
+//Initialize game, display card on page
+function initGame() {
+  const deck = document.querySelector(".deck");
+  const generateCardHTML = cards.map(function(card) {
+    return createCard(card);
+  });
+  deck.innerHTML = generateCardHTML.join("");
+}
+
+initGame();
 
 
 /*

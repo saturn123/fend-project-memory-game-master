@@ -31,8 +31,36 @@ let openCards = [];
 //set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
 allCards.forEach(function(card) {
   card.addEventListener("click", function() {
-    card.classList.add("open", "show");
-    openCards.push(this);
+    //if we already have an existing open card open the card and compare the 2 cards
+    if (openCards.length === 1) {
+
+      const currentCard = this;
+      const previousCard = openCards[0];
+
+      card.classList.add("open", "show");
+      openCards.push(this);
+
+      //compare 2 opened cards
+      if (currentCard.innerHTML === previousCard.innerHTML) {
+        // if the two cards match
+        currentCard.classList.add("match");
+        previousCard.classList.add("match");
+
+        openCards = [];
+
+        //if the two cards do not match, hide cards
+      } else {
+        setTimeout(function() {
+          currentCard.classList.remove("open", "show");
+          previousCard.classList.remove("open", "show");
+
+          openCards = [];
+        });
+      }
+    } else {
+        card.classList.add("open", "show");
+        openCards.push(this);
+      }
   });
 });
 

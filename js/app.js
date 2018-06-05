@@ -66,36 +66,37 @@ function initGame() {
   }
 
   //Play game
-  playGame();
+    playGame();
 }
 
 //set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
 function playGame() {
-  const allCards = document.querySelectorAll(".card");
-  allCards.forEach(function(card) {
-  card.addEventListener("click", function() {
-    if (!gameStarted) {
-      startTimer();
-      gameStarted = true;
-    }
-    //if we already have an existing open card open the card and compare the 2 cards
-    if (openCards.length === 1) {
-      const currentCard = this;
-      const previousCard = openCards[0];
+    const allCards = document.querySelectorAll(".card");
+    allCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+          if (!gameStarted) {
+            startTimer();
+            gameStarted = true;
+          }
+      // if we already have an existing open card open the card and compare the 2 cards
+      if (openCards.length === 1) {
+        const currentCard = this;
+        const previousCard = openCards[0];
 
-      card.classList.add("open", "show", "disable");
-      openCards.push(this);
-
-      //compare 2 opened cards
-      compareCards(currentCard, previousCard);
-
-    } else {
         card.classList.add("open", "show", "disable");
         openCards.push(this);
-      }
+
+        //compare 2 opened cards
+        compareCards(currentCard, previousCard);
+
+      } else if (openCards < 2) {
+          card.classList.add("open", "show", "disable");
+          openCards.push(this);
+        }
+      });
   });
-});
 }
+
 
 function compareCards(currentCard, previousCard) {
   if (currentCard.innerHTML === previousCard.innerHTML) {
@@ -113,7 +114,7 @@ function compareCards(currentCard, previousCard) {
       currentCard.classList.remove("open", "show", "disable");
       previousCard.classList.remove("open", "show", "disable");
       openCards = [];
-    }, 200);
+    }, 500);
   }
   moveCounter();
 }

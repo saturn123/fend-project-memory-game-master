@@ -10,6 +10,7 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
 
 const counter = document.querySelector(".moves");
 const deck = document.querySelector(".deck");
+const stars = document.querySelectorAll(".fa-star");
 let openCards = [];
 let matchedCards = [];
 let moves = 0;
@@ -52,12 +53,17 @@ function initGame() {
 
     //Reset matched card array
     matchedCards = [];
-
   });
 
   //Resets moves
   moves = 0;
   counter.innerHTML = moves;
+
+  //Reset ratings
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].style.color = '#ff0000';
+    stars[i].style.visibility = 'visible';
+  }
 
   //Play game
   playGame();
@@ -74,7 +80,6 @@ function playGame() {
     }
     //if we already have an existing open card open the card and compare the 2 cards
     if (openCards.length === 1) {
-      moveCounter();
       const currentCard = this;
       const previousCard = openCards[0];
 
@@ -110,6 +115,7 @@ function compareCards(currentCard, previousCard) {
       openCards = [];
     }, 200);
   }
+  moveCounter();
 }
 
 //Count player's moves
@@ -117,6 +123,21 @@ function compareCards(currentCard, previousCard) {
 function moveCounter() {
   moves++;
   counter.innerHTML = moves;
+  //Star ratings based on number of player's moves
+  if (moves > 8 && moves < 16) {
+    for (let i = 0; i < 3; i++) {
+      if (i > 1) {
+        stars[i].style.visibility = "collapse";
+      }
+    }
+  }
+  else if (moves > 16) {
+    for (let i = 0; i < 3; i++) {
+      if (i > 0) {
+        stars[i].style.visibility = "collapse";
+      }
+    }
+  }
 }
 
 function startTimer() {
@@ -138,6 +159,8 @@ function startTimer() {
       timer.innerHTML = currentTime;
   }, 750);
 }
+
+
 
 initGame();
 

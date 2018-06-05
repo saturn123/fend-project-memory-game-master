@@ -8,7 +8,8 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
                   "fa fa-leaf", "fa fa-leaf",
                   "fa fa-bicycle", "fa fa-bicycle"];
 
-document.body.onload = initGame();
+let openCards = [];
+let matchedCards = [];
 
 //function to create cards
 function createCard(card) {
@@ -40,14 +41,10 @@ function initGame() {
   deck.innerHTML = generateCardHTML.join("");
 }
 
-const allCards = document.querySelectorAll(".card");
-let openCards = [];
-let matchedCards = [];
-
-playGame(allCards);
 //set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
-function playGame(allCards) {
-allCards.forEach(function(card) {
+function playGame() {
+  const allCards = document.querySelectorAll(".card");
+  allCards.forEach(function(card) {
   card.addEventListener("click", function() {
     //if we already have an existing open card open the card and compare the 2 cards
     if (openCards.length === 1) {
@@ -55,14 +52,14 @@ allCards.forEach(function(card) {
       const currentCard = this;
       const previousCard = openCards[0];
 
-      card.classList.add("open", "show");
+      card.classList.add("open", "show", "disable");
       openCards.push(this);
 
       //compare 2 opened cards
       compareCards(currentCard, previousCard);
 
     } else {
-        card.classList.add("open", "show");
+        card.classList.add("open", "show", "disable");
         openCards.push(this);
       }
   });
@@ -82,14 +79,15 @@ function compareCards(currentCard, previousCard) {
     //if the two cards do not match, hide cards
   } else {
     setTimeout(function() {
-      currentCard.classList.remove("open", "show");
-      previousCard.classList.remove("open", "show");
+      currentCard.classList.remove("open", "show", "disable");
+      previousCard.classList.remove("open", "show", "disable");
       openCards = [];
     }, 500);
   }
 }
 
-
+initGame();
+playGame();
 
 
 

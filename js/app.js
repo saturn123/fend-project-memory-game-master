@@ -8,11 +8,15 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
                   "fa fa-leaf", "fa fa-leaf",
                   "fa fa-bicycle", "fa fa-bicycle"];
 
-const deck = document.querySelector(".deck");
 const counter = document.querySelector(".moves");
+const deck = document.querySelector(".deck");
 let openCards = [];
 let matchedCards = [];
 let moves = 0;
+const timer = document.querySelector(".timer");
+let interval;
+let gameStarted;
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -48,7 +52,12 @@ function initGame() {
 
     //Reset matched card array
     matchedCards = [];
+
   });
+
+  //Resets moves
+  moves = 0;
+  counter.innerHTML = moves;
 
   //Play game
   playGame();
@@ -59,6 +68,10 @@ function playGame() {
   const allCards = document.querySelectorAll(".card");
   allCards.forEach(function(card) {
   card.addEventListener("click", function() {
+    if (!gameStarted) {
+      startTimer();
+      gameStarted = true;
+    }
     //if we already have an existing open card open the card and compare the 2 cards
     if (openCards.length === 1) {
       moveCounter();
@@ -106,6 +119,25 @@ function moveCounter() {
   counter.innerHTML = moves;
 }
 
+function startTimer() {
+  let startTime = new Date().getTime();
+  interval = setInterval(function () {
+    let now = new Date().getTime();
+    let elapsed = now - startTime;
+
+    // Calculate minutes and seconds
+      let minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+      // Add starting 0 if seconds < 10
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+
+      let currentTime = `${minutes}mins ${seconds}secs`;
+      timer.innerHTML = currentTime;
+  }, 750);
+}
 
 initGame();
 

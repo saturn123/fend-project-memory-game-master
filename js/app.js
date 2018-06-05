@@ -8,13 +8,11 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
                   "fa fa-leaf", "fa fa-leaf",
                   "fa fa-bicycle", "fa fa-bicycle"];
 
+const deck = document.querySelector(".deck");
+const counter = document.querySelector(".moves");
 let openCards = [];
 let matchedCards = [];
-
-//function to create cards
-function createCard(card) {
-  return (`<li class="card"><i class="${card}"></i></li>`);
-}
+let moves = 0;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -33,12 +31,27 @@ function shuffle(array) {
 
 //Initialize game, display card on page
 function initGame() {
-  const deck = document.querySelector(".deck");
   //shuffle deck
   const generateCardHTML = shuffle(cards).map(function(card) {
-    return createCard(card);
+      return (`<li class="card"><i class="${card}"></i></li>`);
   });
   deck.innerHTML = generateCardHTML.join("");
+
+  //Resets the game once all the cards are matched and the gave is over
+  const restart = document.querySelector(".restart");
+  restart.addEventListener("click", function() {
+    //Clears deck
+    deck.innerHTML = "";
+
+    //Start new Game
+    initGame();
+
+    //Reset matched card array
+    matchedCards = [];
+  });
+
+  //Play game
+  playGame();
 }
 
 //set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
@@ -48,7 +61,7 @@ function playGame() {
   card.addEventListener("click", function() {
     //if we already have an existing open card open the card and compare the 2 cards
     if (openCards.length === 1) {
-
+      moveCounter();
       const currentCard = this;
       const previousCard = openCards[0];
 
@@ -82,12 +95,20 @@ function compareCards(currentCard, previousCard) {
       currentCard.classList.remove("open", "show", "disable");
       previousCard.classList.remove("open", "show", "disable");
       openCards = [];
-    }, 500);
+    }, 200);
   }
 }
 
+//Count player's moves
+
+function moveCounter() {
+  moves++;
+  counter.innerHTML = moves;
+}
+
+
 initGame();
-playGame();
+
 
 
 

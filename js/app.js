@@ -10,16 +10,6 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
 
 document.body.onload = initGame();
 
-//Initialize game, display card on page
-function initGame() {
-  const deck = document.querySelector(".deck");
-  //shuffle deck
-  const generateCardHTML = shuffle(cards).map(function(card) {
-    return createCard(card);
-  });
-  deck.innerHTML = generateCardHTML.join("");
-}
-
 //function to create cards
 function createCard(card) {
   return (`<li class="card"><i class="${card}"></i></li>`);
@@ -40,11 +30,23 @@ function shuffle(array) {
     return array;
 }
 
+//Initialize game, display card on page
+function initGame() {
+  const deck = document.querySelector(".deck");
+  //shuffle deck
+  const generateCardHTML = shuffle(cards).map(function(card) {
+    return createCard(card);
+  });
+  deck.innerHTML = generateCardHTML.join("");
+}
+
 const allCards = document.querySelectorAll(".card");
 let openCards = [];
 let matchedCards = [];
 
+playGame(allCards);
 //set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
+function playGame(allCards) {
 allCards.forEach(function(card) {
   card.addEventListener("click", function() {
     //if we already have an existing open card open the card and compare the 2 cards
@@ -57,32 +59,37 @@ allCards.forEach(function(card) {
       openCards.push(this);
 
       //compare 2 opened cards
-      if (currentCard.innerHTML === previousCard.innerHTML) {
+      compareCards(currentCard, previousCard);
 
-        // if the two cards match
-        currentCard.classList.add("match");
-        previousCard.classList.add("match");
-        matchedCards.push(currentCard, previousCard);
-
-        openCards = [];
-
-        //Check if gave over
-
-
-        //if the two cards do not match, hide cards
-      } else {
-        setTimeout(function() {
-          currentCard.classList.remove("open", "show");
-          previousCard.classList.remove("open", "show");
-          openCards = [];
-        }, 500);
-      }
     } else {
         card.classList.add("open", "show");
         openCards.push(this);
       }
   });
 });
+}
+
+function compareCards(currentCard, previousCard) {
+  if (currentCard.innerHTML === previousCard.innerHTML) {
+
+    // if the two cards match
+    currentCard.classList.add("match");
+    previousCard.classList.add("match");
+    matchedCards.push(currentCard, previousCard);
+
+    openCards = [];
+
+    //if the two cards do not match, hide cards
+  } else {
+    setTimeout(function() {
+      currentCard.classList.remove("open", "show");
+      previousCard.classList.remove("open", "show");
+      openCards = [];
+    }, 500);
+  }
+}
+
+
 
 
 

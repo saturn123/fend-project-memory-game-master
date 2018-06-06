@@ -56,11 +56,7 @@ function initGame() {
 
   //hide Modal
   modal.classList.add("hide");
-
-  //
-  seconds = 0;
-  minutes = 0;
-
+  
   //Play game
   playGame();
 }

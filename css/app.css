@@ -66,12 +66,16 @@ h1 {
 }
 
 .deck .card.open {
-    transform: rotateY(0);
+    transform: rotateY(180deg);
     background: #02b3e4;
     cursor: default;
+    -webkit-transition: 0.5s;
+	  -webkit-transform-style: preserve-3d;
+
 }
 
 .deck .card.show {
+    z-index: 2;
     font-size: 33px;
 }
 
@@ -83,6 +87,8 @@ h1 {
 
 .deck .card.disable {
     pointer-events: none;
+
+
 }
 
 /*
@@ -115,4 +121,24 @@ h1 {
 .score-panel .timer {
   display: inline-block;
   margin:  0 50px;
+}
+
+/* Styles for modal*/
+
+.modal {
+    width: 400px;
+    height: 150px;
+    padding: 5%;
+    font-size: 15px;
+    font-weight 300;
+    font-family: 'Coda', cursive;
+    position: absolute;
+    z-index: 10;
+    background-color: #adbace;
+    text-align: center;
+    display: block;
+}
+
+.modal.hide {
+    display: none;
 }

@@ -9,6 +9,6 @@ The game ends when all pairs are revealed.
 
 # Scores
 
-3stars = 10 moves or less
-2stars = 20 moves or less
-1star = more than 20 moves
+-  3stars = 10 moves or less
+-  2stars = 20 moves or less
+-  1star = more than 20 moves

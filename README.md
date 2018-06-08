@@ -1,20 +1,14 @@
 # Memory Game Project
 
-## Table of Contents
-
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+Classic Memory Game
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Click the cards to reveal them. The goal is to reveal cards two at a time to match the pairs. If the cards match, both cards stay flipped over. If the cards do not match, both cards are flipped face down.
+The game ends when all pairs are revealed.
 
-To get started, open `js/app.js` and start building out the app's functionality
+# Scores
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+3stars = 10 moves or less
+2stars = 20 moves or less
+1star = more than 20 moves

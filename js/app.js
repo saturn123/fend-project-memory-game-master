@@ -1,4 +1,4 @@
-//Create a list that holds all of your cards
+// Create a list that holds all of your cards
 const cards = ["fa fa-diamond", "fa fa-diamond",
                   "fa fa-paper-plane-o", "fa fa-paper-plane-o",
                   "fa fa-anchor", "fa fa-anchor",
@@ -11,15 +11,15 @@ const cards = ["fa fa-diamond", "fa fa-diamond",
 const counter = document.querySelector(".moves");
 const deck = document.querySelector(".deck");
 const stars = document.querySelectorAll(".fa-star");
-const modal = document.querySelector(".modal");
 const restart = document.querySelector(".restart");
 let openCards = [];
 let matchedCards = [];
 let moves = 0;
 const timer = document.querySelector(".timer");
-let interval;
-let gameStarted;
-
+let interval = 0;
+let gameStarted = false;
+let starRating = 3;
+let totalSeconds = 0;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -36,51 +36,59 @@ function shuffle(array) {
     return array;
 }
 
-//Initialize game, display card on page
+// Initialize game, display card on page
 function initGame() {
-  //shuffle deck
+  // Shuffle deck
   const generateCardHTML = shuffle(cards).map(function(card) {
       return (`<li class="card"><i class="${card}"></i></li>`);
   });
   deck.innerHTML = generateCardHTML.join("");
 
-  //Resets moves
+  // Resets moves
   moves = 0;
   counter.innerHTML = moves;
 
-  //Reset ratings
+  // Reset ratings
   for (let i = 0; i < stars.length; i++) {
-    stars[i].style.color = '#ff0000';
-    stars[i].style.visibility = 'visible';
+    stars[i].style.color = "#ff0000";
+    stars[i].style.visibility = "visible";
   }
 
-  //hide Modal
-  modal.classList.add("hide");
-  
-  //Play game
+  // Build modal to display when the game is over.
+  buildCongratsModal();
+
+  // Hide Modal
+  hideCongratsModal();
+
+  // Reset timer
+  resetTimer();
+
+  // Play game
   playGame();
 }
 
-//set up the event listener for a card. If a card is clicked: display the card's symbol and push the card in openCards array
+// Set up the event listener for a card. If a card is clicked: display the card's
+// symbol and push the card in openCards array
 function playGame() {
     const allCards = document.querySelectorAll(".card");
     allCards.forEach(function(card) {
         card.addEventListener("click", function() {
           if (!gameStarted) {
-            startTimer();
-            gameStarted = true;
+             interval = setInterval(startTimer, 1000);
+             gameStarted = true;
           }
-      // if we already have an existing open card open the card and compare the 2 cards
+      // If we already have an existing open card
       if (openCards.length === 1) {
+        moveCounter();
         const currentCard = this;
         const previousCard = openCards[0];
 
         card.classList.add("open", "show", "disable");
         openCards.push(this);
 
-        //compare 2 opened cards
+        // Compare 2 opened cards
         compareCards(currentCard, previousCard);
-        //Players restricted to click only 2 cards at a time
+        // Players restricted to click only 2 cards at a time
       } else if (openCards < 2)  {
           card.classList.add("open", "show", "disable");
           openCards.push(this);
@@ -89,20 +97,21 @@ function playGame() {
   });
 }
 
+// Compare current and previous card
 function compareCards(currentCard, previousCard) {
   if (currentCard.innerHTML === previousCard.innerHTML) {
 
-    // if the two cards match
+    // If the two cards match
     currentCard.classList.add("match");
     previousCard.classList.add("match");
 
     matchedCards.push(currentCard, previousCard);
     openCards = [];
 
-    //Check if all cards have been matched
+    // Check if all cards have been matched
     gameOver();
 
-    //if the two cards do not match, hide cards
+    // If the two cards do not match, hide cards
   } else {
     setTimeout(function() {
       currentCard.classList.remove("open", "show", "disable");
@@ -110,40 +119,73 @@ function compareCards(currentCard, previousCard) {
       openCards = [];
     }, 750);
   }
-  moveCounter();
 }
 
 //Count player's moves
-
 function moveCounter() {
   moves++;
   counter.innerHTML = moves;
   //Star ratings based on number of player's moves
-  if (moves > 8 && moves < 16) {
+  if (moves > 10 && moves < 20) {
     for (let i = 0; i < 3; i++) {
       if (i > 1) {
         stars[i].style.visibility = "collapse";
+        starRating = 2;
+
       }
     }
   }
-  else if (moves > 16) {
+  else if (moves > 20) {
     for (let i = 0; i < 3; i++) {
       if (i > 0) {
         stars[i].style.visibility = "collapse";
+        starRating = 1;
       }
     }
   }
 }
 
+
+// Create a div element to add to the page that will hold the congrats message later
+// Hide the div element initially
+function buildCongratsModal() {
+    const page = document.getElementsByClassName("container");
+    const popup = document.createElement("div");
+    popup.className = "congratsPopup hidden";
+    popup.innerHTML = "";
+    page[0].appendChild(popup);
+}
+
+// Display the congrats message with the move count, total time, star rating and play again 'button'
+function displayCongratsModal() {
+    const popup = document.getElementsByClassName("congratsPopup");
+    popup[0].className = "congratsPopup";
+    popup[0].innerHTML =
+        `<h2 class="congratsHeading" > Congratulations! </h2>
+        <h3 class="congratsTagline" > You've won the game! </h3>
+        <p class="congratsMove" > ${moves} Moves </p>
+        <p class="congratsTime" > ${timer.innerHTML} Total time </p>
+        <p class="congratsStar" > ${starRating} Stars </p>
+        <p class="congratsPlay" > Play Again </p>`;
+    const play = document.getElementsByClassName("congratsPlay");
+    play[0].addEventListener("click", initGame);
+}
+
+// Hide the congrats popup by adding the class 'dimmed'
+// Erase the congrats text messages
+function hideCongratsModal() {
+    const popup = document.getElementsByClassName("congratsPopup");
+    popup[0].className = "congratsPopup hidden";
+    popup[0].innerHTML = "";
+}
+
+// Start timer
 function startTimer() {
-  let startTime = new Date().getTime();
-  interval = setInterval(function () {
-    let now = new Date().getTime();
-    let elapsed = now - startTime;
+  ++totalSeconds;
 
     // Calculate minutes and seconds
-      let minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-      let seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+      let minutes = Math.floor(totalSeconds/60);
+      let seconds = totalSeconds - (minutes*60);
 
       // Add starting 0 if seconds < 10
       if (seconds < 10) {
@@ -152,15 +194,27 @@ function startTimer() {
 
       let currentTime = `${minutes}mins ${seconds}secs`;
       timer.innerHTML = currentTime;
-  }, 750);
 }
 
+// Reset Timer
+function resetTimer(){
+    clearInterval(interval);
+    gameStarted = false;
+    totalSeconds = 0;
+    timer.innerHTML = `0mins 0secs`;
+}
+
+// Stop timer
+function stopTimer(){
+    clearInterval(interval);
+}
+
+// Game over
 function gameOver() {
   if(matchedCards.length === cards.length) {
-    clearInterval(interval);
-    setTimeout(function(){
-      modal.classList.remove("hide");
-    }, 500);
+    matchedCards = [];
+    stopTimer();
+    displayCongratsModal();
   }
 }
 
@@ -168,6 +222,5 @@ function gameOver() {
 restart.addEventListener("click", function() {
   window.location.reload();
 });
-
 
 initGame();

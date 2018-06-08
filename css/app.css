@@ -75,7 +75,6 @@ h1 {
 }
 
 .deck .card.show {
-    z-index: 2;
     font-size: 33px;
 
 }
@@ -128,31 +127,36 @@ h1 {
   margin:  0 50px;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Styles for modal*/
 
-.modal {
-    width: 400px;
-    height: 150px;
-    padding: 5%;
-    font-size: 15px;
-    font-weight 300;
-    font-family: 'Coda', cursive;
-    position: absolute;
-    z-index: 10;
-    background-color: #adbace;
+.congratsPopup {
+    width: 360px;
+    min-height: 380px;
+    background: #fcf9ed;
+    padding: 32px;
+    border-radius: 10px;
     text-align: center;
-    display: block;
-    -webkit-animation-name: zoomIn;
+    position: absolute;
+    margin: auto auto;
     animation-name: zoomIn;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+    animation-duration: .7s;
 }
 
-.modal.hide {
-    display: none;
+.congratsPlay {
+    cursor: pointer;
+    background: #2ecc71;
+    height: 4rem;
+    width: 10rem;
+    margin: auto;
+    padding: 1.2em;
+    color: white;
+    border-radius: 8px;
 }
+
 /*Animations------http://www.theappguruz.com/tag-tools/web/CSSAnimations/ */
   @-webkit-keyframes rubberBand {
   0% {

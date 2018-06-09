@@ -15,6 +15,6 @@ The game ends when all pairs are revealed.
 
 # Dependencies
 
-- [Font Awesome icons] (https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css)
-- [Coda font] (https://fonts.googleapis.com/css?family=Coda)
-- [Animations] (http://www.theappguruz.com/tag-tools/web/CSSAnimations/)
+- [Font Awesome icons](https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css)
+- [Coda font](https://fonts.googleapis.com/css?family=Coda)
+- [Animations](http://www.theappguruz.com/tag-tools/web/CSSAnimations/)

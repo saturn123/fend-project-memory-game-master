@@ -12,3 +12,9 @@ The game ends when all pairs are revealed.
 -  3stars = 10 moves or less
 -  2stars = 20 moves or less
 -  1star = more than 20 moves
+
+# Dependencies
+
+- [Font Awesome icons] (https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css)
+- [Coda font] (https://fonts.googleapis.com/css?family=Coda)
+- [Animations] (http://www.theappguruz.com/tag-tools/web/CSSAnimations/)
